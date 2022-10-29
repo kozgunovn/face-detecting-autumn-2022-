@@ -1,14 +1,30 @@
+habr:
 https://habr.com/ru/post/133826/ (7 - general information)
 https://habr.com/ru/post/216019/ (5 - links for researches + deep info about algo)
 https://habr.com/ru/company/droider/blog/568764/ ( 4 - motivation + simple explanation)
 
 
-
+books/big articles:
 http://www.ccas.ru/frc/papers/mestetskii04course.pdf (5-6 - book, where is discribed math. part of algorithm)
 https://vk.com/wall-51126445_44184 (2 - plenty of big/long books)
 https://www.cs.cmu.edu/~efros/courses/LBMV07/Papers/viola-IJCV-01.pdf (4-5 - explanation of full algo without any codes)
+https://thescipub.com/pdf/jcssp.2017.22.33.pdf (3-5)
+http://www.machinelearning.ru/wiki/index.php?title=AdaBoost (adaboost!)
 
-
+elibrary:
 https://proxy.library.spbu.ru:2311/download/elibrary_17954070_41247537.pdf - example of presentation(9)!!
 https://proxy.library.spbu.ru:2311/download/elibrary_22893574_28603646.pdf - example of presentation + detecting skin (8)
 http://www.nauteh-journal.ru/files/7a7d96c9-acd8-4936-819f-5607386faf51 - small article about algo in general (3-4)
+
+
+github:
+https://github.com/Simon-Hohberg/Viola-Jones/blob/8772a28c7a622643741700bf6807acfe36fb818f/violajones/HaarLikeFeature.py#L1 - idk
+https://github.com/lizihao1999/Viola-Jones
+https://github.com/ggapac/cartoon-face-detection
+https://github.com/dstoyanova/face-detection-and-tracking
+https://github.com/Zhenye-Na/viola-jones-algo
+https://github.com/sunsided/viola-jones-adaboost
+https://github.com/btuan/ViolaJones
+https://github.com/felipecorrea/pedestrian-haar-based-detector
+https://github.com/Donny-Hikari/Viola-Jones
+https://github.com/aldebaro/ufpa-face-detection
