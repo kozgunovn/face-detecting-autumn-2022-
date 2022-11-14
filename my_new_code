@@ -1,0 +1,148 @@
+import cv2
+import time
+
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
+# left_eye_cascade = cv2.CascadeClassifier('haarcascade_lefteye_2splits.xml')
+# right_eye_cascade = cv2.CascadeClassifier('haarcascade_righteye_2splits.xml')
+# smile_cascade = cv2.CascadeClassifier('haarcascade_smile.xml')
+
+img_counter = 0
+
+def face_capture(eye_cascade, face_cascade, sign_exit, img_counter):
+    
+    # counter = 0
+
+    camera = cv2.VideoCapture(0)  # computer camera
+    # camera = cv2.VideoCapture("Koijot.mp4 ")  # downloaded video
+    cv2.namedWindow("computer camera online")
+
+    ##frame = camera.read()
+
+    prev_time = time.perf_counter()
+
+    x = int()
+    y = int()
+    w = int()
+    h = int()
+
+    ex = int()
+    ey = int()
+    center_ew = int()
+    center_eh = int()
+
+    while sign_exit:
+        ret, frame = camera.read()
+        gray = cv2.cvtColor(frame, cv2.IMREAD_COLOR)  # or cv2.COLOR_BGR2GRAY as option
+        if not ret:
+            print("failed to grab frame")
+            break
+
+        h_half = round(5.5 / 8 * h)
+        restriction_of_eye_gray = gray[x: x + w, y: y + h_half]
+        restriction_of_eye_gray_color = frame[x: x + w, y: y + h_half]
+
+        current_time = time.perf_counter()
+        
+        if current_time - prev_time >= 3:
+            print(current_time - prev_time)
+            prev_time = current_time
+
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.03, minNeighbors=3, minSize=(30, 30),
+                                                  flags=cv2.CASCADE_SCALE_IMAGE)
+            eye = eye_cascade.detectMultiScale(restriction_of_eye_gray, scaleFactor=1.05, minNeighbors=4,
+                                               minSize=(2, 2), flags=cv2.CASCADE_SCALE_IMAGE)
+
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # face
+                for (ex, ey, ew, eh) in eye:
+                    center_ew = round(ew / 2)
+                    center_eh = round(eh / 2)
+                    cv2.circle(restriction_of_eye_gray_color, (ex + center_ew, ey + center_eh), 20, (2, 244, 255), thickness=2, lineType=8, shift=0)
+
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)  # face
+        cv2.circle(restriction_of_eye_gray_color, (ex + center_ew, ey + center_eh), 20, (2, 244, 255), thickness=2, lineType=8, shift=0)
+        cv2.imshow('computer camera online', frame)
+
+        k = cv2.waitKey(1)
+        if k != -1:
+            img_counter += 1
+            keyboard_input(frame, sign_exit, img_counter, k)
+    camera.release()
+    cv2.DestroyALLWIndows()
+
+
+
+
+'''
+def eye_detection(x, y, w, h, gray, frame, eye_cascade):
+    h_half = round(5 / 8 * h)
+    restriction_of_eye_gray = gray[x: x + w, y: y + h_half]
+    restriction_of_eye_gray_color = frame[x: x + w, y: y + h_half]
+    eye = eye_cascade.detectMultiScale(restriction_of_eye_gray, scaleFactor=1.05, minNeighbors=4,
+                                       minSize=(2, 2), flags=cv2.CASCADE_SCALE_IMAGE)
+
+    for (ex, ey, ew, eh) in eye:
+        center_ew = round(ew / 2)
+        center_eh = round(eh / 2)
+        cv2.circle(restriction_of_eye_gray_color, (ex + center_ew, ey + center_eh), 20, (2, 244, 255), thickness=2,
+                   lineType=8, shift=0)
+'''
+
+
+def keyboard_input(frame, sign_exit, img_counter, k):  # taking photo & exit
+    print(k)
+    if k == 13:  # ENTER pressed
+        print("Escape hit, closing...")
+        sign_exit = False
+        exit()
+    elif k == 32:  # SPACE pressed
+        img_name = "opencv_frame_{}.png".format(img_counter)
+        cv2.imwrite(img_name, frame)
+        print("{} written!".format(img_name))
+
+    return sign_exit, k
+
+
+def main():
+    sign_exit = True
+
+    while sign_exit:
+        face_capture(eye_cascade, face_cascade, sign_exit, img_counter)
+
+
+
+main()
+
+
+
+
+
+
+
+# smile
+# nose
+# left and right eyes
+# position of left and right eyes and nose between them
+# eyebrows
+# rotation of face
+# distances between eyes, eyebrows
+# skin detecting
+# full face inside the rectangle
+# ?? what to do with small sizes ??
+# no more, no less than 1 nose, 1 smile, 1 left eye, 1 right eye, 1,right ear, 1 left ear, 1 left eyebrow, 1 right eyebrow
+'''
+ лицо можно распозновать раз в несколько секунд. запоминать координаты лица прошлого. у человека 1 левый глаз и 1 правый 
+и документация opencv - на все использованные функции и в целом как работает с признаками хаара + стабильность определния лица и глаз
+
+функции отдельно сделать по глазам, лицу, камеру. функция: получает фото - выдает лицо. таймер для каждой секунды(не чаще). 
+
+
+как измерять дистанцию между глазами 
+
+ +- свой признак хаара для пальцев(и их количества) или для рзаобраться с xml-файлом. и записку в формате pdf начать делать 6-8 страниц с
+ описанием того, что я использовал и что я буду делать в следующем семестре. 
+
+'''
+  
